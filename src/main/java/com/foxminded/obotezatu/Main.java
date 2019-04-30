@@ -1,8 +1,11 @@
 package com.foxminded.obotezatu;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -10,23 +13,41 @@ public class Main {
 	public static void main(String[] args) {
 
 		try {
-			List<Racer> racersInfo = QualificationRace.readRacerInfo().sort((racer1,racer2)->{
-				long first = Duration.between(racer1.getStartLap().toLocalTime(), racer1.getEndLap().toLocalTime()).toMillis();
-				long second = Duration.between(racer2.getStartLap().toLocalTime(), racer2.getEndLap().toLocalTime()).toMillis();
-				
-				
-			});
+			File file = new File("./src/main/resources/outputRacer.log");
+			FileWriter fileWriter = new FileWriter(file);
+		    PrintWriter printWriter = new PrintWriter(fileWriter);
+			List<Racer> racersInfo = QualificationRace.readRacerInfo();
+			Collections.sort(racersInfo, new RacerComparator());
 			int i = 1;
 			for (Racer racer : racersInfo) {
-				System.out.println(String.format("%3d. %-17s | %-25s | %s", i, racer.getName(), racer.getTeam(),
-						racer.getEndLap().toLocalTime().toString()));
+				String formatedOutput = String.format("%3d. %-17s | %-25s | %s%n", i, racer.getName(), racer.getTeam(),
+						getLapTime(racer));
+				System.out.print(formatedOutput);
+				printWriter.print(formatedOutput);
+				if (i==15) {
+					System.out.println("-----------------------------------------------------------------------");
+					printWriter.print(String.format("-----------------------------------------------------------------------%n"));
+				}
 				i++;
 			}
+			printWriter.close();
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 
+	}
+
+	private static String getLapTime(Racer racer) {
+		final long MILLIS_PER_SEC = 1000;
+		final long MINUTES_PER_HOUR = 60;
+		final long MILLIS_PER_MINUTE = 60*MILLIS_PER_SEC;
+		final long MILLIS_PER_HOUR = MILLIS_PER_MINUTE * MINUTES_PER_HOUR*MILLIS_PER_SEC;
+		
+		long duration = Duration.between(racer.getStartLap(), racer.getEndLap()).toMillis();
+		long minutes = ((duration % MILLIS_PER_HOUR) / MILLIS_PER_MINUTE);
+		long secs = (duration % MILLIS_PER_MINUTE)/ MILLIS_PER_SEC;
+		long millis = (duration % MILLIS_PER_SEC);
+		return String.format("%02d:%02d.%03d", minutes,secs,millis);
 	}
 
 }

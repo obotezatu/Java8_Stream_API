@@ -1,17 +1,14 @@
 package com.foxminded.obotezatu;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Racer {
 	
 	private String id;
 	private String name;
-	//private String lastName;
 	private String team;
-	private LocalDateTime startLap;
-	private LocalDateTime endLap;
+	private Instant startLap;
+	private Instant endLap;
 	
 	public String getId() {
 		return id;
@@ -25,28 +22,23 @@ public class Racer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/*public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}*/
+	
 	public String getTeam() {
 		return team;
 	}
 	public void setTeam(String team) {
 		this.team = team;
 	}
-	public LocalDateTime getStartLap() {
+	public Instant getStartLap() {
 		return startLap;
 	}
-	public void setStartLap(LocalDateTime startLap) {
+	public void setStartLap(Instant startLap) {
 		this.startLap = startLap;
 	}
-	public LocalDateTime getEndLap() {
+	public Instant getEndLap() {
 		return endLap;
 	}
-	public void setEndLap(LocalDateTime endLap) {
+	public void setEndLap(Instant endLap) {
 		this.endLap = endLap;
 	}
 }
