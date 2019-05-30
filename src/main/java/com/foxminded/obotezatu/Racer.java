@@ -2,14 +2,13 @@ package com.foxminded.obotezatu;
 
 import java.time.Instant;
 
-public class Racer {
+public class Racer implements Comparable<Racer> {
 
 	private String id;
 	private String name;
 	private String team;
-	private Instant startLap;
-	private Instant endLap;
-
+	private LapTimeRepository lapTimes;	
+	
 	public String getId() {
 		return id;
 	}
@@ -33,20 +32,18 @@ public class Racer {
 	public void setTeam(String team) {
 		this.team = team;
 	}
-
-	public Instant getStartLap() {
-		return startLap;
+	
+	public LapTimeRepository getLapTimes() {
+		return lapTimes;
 	}
 
-	public void setStartLap(Instant startLap) {
-		this.startLap = startLap;
+	public void setLapTimes(Instant startLap, Instant endLap) {
+		this.lapTimes = new LapTimeRepository(startLap, endLap);
+	}
+	
+	@Override
+	public int compareTo(Racer nextRacer) {
+		return  this.lapTimes.getLapDuration().compareTo(nextRacer.lapTimes.getLapDuration());
 	}
 
-	public Instant getEndLap() {
-		return endLap;
-	}
-
-	public void setEndLap(Instant endLap) {
-		this.endLap = endLap;
-	}
 }
