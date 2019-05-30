@@ -7,8 +7,8 @@ public class Racer implements Comparable<Racer> {
 	private String id;
 	private String name;
 	private String team;
-	private LapTimeRepository lapTimes;	
-	
+	private LapTimeRepository lapTimes;
+
 	public String getId() {
 		return id;
 	}
@@ -32,7 +32,7 @@ public class Racer implements Comparable<Racer> {
 	public void setTeam(String team) {
 		this.team = team;
 	}
-	
+
 	public LapTimeRepository getLapTimes() {
 		return lapTimes;
 	}
@@ -40,10 +40,10 @@ public class Racer implements Comparable<Racer> {
 	public void setLapTimes(Instant startLap, Instant endLap) {
 		this.lapTimes = new LapTimeRepository(startLap, endLap);
 	}
-	
+
 	@Override
 	public int compareTo(Racer nextRacer) {
-		return  this.lapTimes.getLapDuration().compareTo(nextRacer.lapTimes.getLapDuration());
+		return this.lapTimes.getLapDuration().compareTo(nextRacer.lapTimes.getLapDuration());
 	}
 
 }

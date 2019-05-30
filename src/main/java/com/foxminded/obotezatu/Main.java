@@ -11,7 +11,6 @@ public class Main {
 		try {
 			RacerRepository qualificationRace = new RacerRepository();
 			List<Racer> racersInfo = qualificationRace.readRacerInfo();
-			//Collections.sort(racersInfo, new RacerComparator());
 			Collections.sort(racersInfo);
 			int i = 1;
 			racersInfo.stream().map(mapper).forEach(element ->{print(i,element); i++;});

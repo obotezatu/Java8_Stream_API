@@ -11,14 +11,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RacerRepository {
-	
-	private final  Path START_FILE_PATH = getResourceFile("start.log");
-	private final  Path END_FILE_PATH = getResourceFile("end.log");
-	private final  Path ABBREVIATION_FILE_PATH = getResourceFile("abbreviations.txt");
-	
+
+	private final Path START_FILE_PATH = getResourceFile("start.log");
+	private final Path END_FILE_PATH = getResourceFile("end.log");
+	private final Path ABBREVIATION_FILE_PATH = getResourceFile("abbreviations.txt");
+
 	public List<Racer> readRacerInfo() throws IOException {
-		return 	Files.lines(ABBREVIATION_FILE_PATH)
-				.map(new RacerRepository()::parseAbbreviation)
+		return Files.lines(ABBREVIATION_FILE_PATH).map(new RacerRepository()::parseAbbreviation)
 				.map(new RacerRepository()::writeRacer).collect(Collectors.toList());
 	}
 
@@ -51,18 +50,16 @@ public class RacerRepository {
 			endTime = readTime(END_FILE_PATH);
 			String racerID = racer.getId();
 			racer.setLapTimes(startTime.get(racerID), endTime.get(racerID));
-			//racer.setEndLap(endTime.get(racerID));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return racer;
 	}
-	
+
 	private Path getResourceFile(String resourceFileName) {
 		Path path = null;
 		try {
-			path = Paths.get(getClass().getClassLoader()
-					.getResource(resourceFileName).toURI());
+			path = Paths.get(getClass().getClassLoader().getResource(resourceFileName).toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
