@@ -4,24 +4,18 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 
 	public static void main(String[] args) {
 		try {
-			RacerRepository qualificationRace = new RacerRepository();
-			List<Racer> racersInfo = qualificationRace.readRacerInfo();
+			List<Racer> racersInfo = new RacerRepository().readRacerInfo();
 			Collections.sort(racersInfo);
-			int i = 1;
-			racersInfo.stream().map(mapper).forEach(element ->{print(i,element); i++;});
-			/*for (Racer racer : racersInfo) {
-				String formattedOutput = String.format("%3d. %-17s | %-25s | %s", i, racer.getName(), racer.getTeam(), getLapTime(racer));
-				System.out.println(formattedOutput);
-				if (i == 15) {
-					System.out.println("--------------------------------------------------------------");
-				}
-				i++;
-			}*/
+			AtomicInteger count = new AtomicInteger(1);
+			racersInfo.stream().limit(15).forEach(racer ->print(racer,count));
+			System.out.println("--------------------------------------------------------------");
+			racersInfo.stream().skip(15).forEach(racer ->print(racer,count));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -35,10 +29,9 @@ public class Main {
 		return String.format("%02d:%02d.%03d", minutes, secs, millis);
 	}
 	
-	private static void print(int i, Racer racer) {
-		String formattedOutput = String.format("%3d. %-17s | %-25s | %s", i, racer.getName(), racer.getTeam(), getLapTime(racer));
+	private static void print(Racer racer, AtomicInteger count) {
+		String formattedOutput = String.format("%3d. %-17s | %-25s | %s",count.getAndIncrement(), racer.getName(), racer.getTeam(), getLapTime(racer));
 		System.out.println(formattedOutput);
 		
 	}
-
 }
