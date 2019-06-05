@@ -1,13 +1,13 @@
 package com.foxminded.obotezatu;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
-public class Racer implements Comparable<Racer> {
+public class Racer  {
 
 	private String id;
 	private String name;
 	private String team;
-	private LapTimeRepository lapTimes;
+	private LapTime bestLapTime;
 
 	public String getId() {
 		return id;
@@ -33,17 +33,11 @@ public class Racer implements Comparable<Racer> {
 		this.team = team;
 	}
 
-	public LapTimeRepository getLapTimes() {
-		return lapTimes;
+	public LapTime getLapTime() {
+		return bestLapTime;
 	}
 
-	public void setLapTimes(Instant startLap, Instant endLap) {
-		this.lapTimes = new LapTimeRepository(startLap, endLap);
+	public void setLapTime(LocalDateTime start, LocalDateTime end) {
+		this.bestLapTime = new LapTime(start, end);
 	}
-
-	@Override
-	public int compareTo(Racer nextRacer) {
-		return this.lapTimes.getLapDuration().compareTo(nextRacer.lapTimes.getLapDuration());
-	}
-
 }
