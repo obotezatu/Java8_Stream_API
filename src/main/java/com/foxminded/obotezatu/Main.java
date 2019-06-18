@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Main {
 
 	public static void main(String[] args){
-		List<Racer> racersInfo = new RacerRepository().readRecers();
+		List<Racer> racersInfo = new RacerRepository().readRacers();
 		Collections.sort(racersInfo, (currentRacer,nextRacer)->{
 			return currentRacer.getLapTime().getLapDuration().compareTo(nextRacer.getLapTime().getLapDuration());
 			});

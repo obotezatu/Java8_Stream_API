@@ -20,7 +20,7 @@ public class RacerRepository {
 	private final Path END_FILE_PATH = getResourceFile("end.log");
 	private final Path ABBREVIATION_FILE_PATH = getResourceFile("abbreviations.txt");
 
-	public List<Racer> readRecers() {
+	public List<Racer> readRacers() {
 		List<Racer> racers = null;
 		try {
 			racers = Files.lines(ABBREVIATION_FILE_PATH).map(this::parseAbbreviation)
