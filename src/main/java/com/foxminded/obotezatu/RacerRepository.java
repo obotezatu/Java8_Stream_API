@@ -5,25 +5,24 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RacerRepository {
-
-	private final Path START_FILE_PATH = getResourceFile("start.log");
-	private final Path END_FILE_PATH = getResourceFile("end.log");
-	private final Path ABBREVIATION_FILE_PATH = getResourceFile("abbreviations.txt");
+	
+	private static final String START_FILE = "start.log"; 
+	private static final String END_FILE = "end.log";
+	private static final String ABBREVIATION_FILE = "abbreviations.txt";
+	private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd_HH:mm:ss.SSS";
 
 	public List<Racer> readRacers() {
 		List<Racer> racers = null;
+		Path abbreviationPath = getResourceFile(ABBREVIATION_FILE);
 		try {
-			racers = Files.lines(ABBREVIATION_FILE_PATH).map(this::parseAbbreviation)
+			racers = Files.lines(abbreviationPath).map(this::parseAbbreviation)
 					.map(this::setBestLapTime).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -55,9 +54,11 @@ public class RacerRepository {
 	private Racer setBestLapTime(Racer racer) {
 		Map<String, LocalDateTime> startTime;
 		Map<String, LocalDateTime> endTime;
+		Path startPath = getResourceFile(START_FILE);
+		Path endPath = getResourceFile(END_FILE);
 		try {
-			startTime = readTime(START_FILE_PATH);
-			endTime = readTime(END_FILE_PATH);
+			startTime = readTime(startPath);
+			endTime = readTime(endPath);
 			String racerID = racer.getId();
 			racer.setLapTime(startTime.get(racerID), endTime.get(racerID));
 		} catch (IOException e) {
@@ -77,15 +78,8 @@ public class RacerRepository {
 	}
 
 	private LocalDateTime parseTime(String dateTime) {
-		String dateTimeFormatPattern = "yyyy-MM-dd_HH:mm:ss.SSS";
-		ZoneId defaultZoneId = ZoneId.systemDefault();
-		DateFormat format = new SimpleDateFormat(dateTimeFormatPattern);
-		LocalDateTime parsedDateTime = null;
-		try {
-			parsedDateTime = format.parse(dateTime).toInstant().atZone(defaultZoneId).toLocalDateTime();
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return parsedDateTime;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
+		LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
+		return localDateTime;
 	}
 }
