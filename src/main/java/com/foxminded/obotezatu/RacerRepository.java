@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,10 +21,15 @@ public class RacerRepository {
 
 	public List<Racer> readRacers() {
 		List<Racer> racers = null;
+		List<Map<String, LocalDateTime>> startEndTime = new ArrayList<Map<String, LocalDateTime>>();
 		Path abbreviationPath = getResourceFile(ABBREVIATION_FILE);
+		Path startPath = getResourceFile(START_FILE);
+		Path endPath = getResourceFile(END_FILE);
 		try {
+			startEndTime.add(readTime(startPath));
+			startEndTime.add(readTime(endPath));
 			racers = Files.lines(abbreviationPath).map(this::parseAbbreviation)
-					.map(this::setBestLapTime).collect(Collectors.toList());
+					.map(racer->setBestLapTime(racer,startEndTime)).collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -51,19 +57,9 @@ public class RacerRepository {
 		return qualificationTime;
 	}
 
-	private Racer setBestLapTime(Racer racer) {
-		Map<String, LocalDateTime> startTime;
-		Map<String, LocalDateTime> endTime;
-		Path startPath = getResourceFile(START_FILE);
-		Path endPath = getResourceFile(END_FILE);
-		try {
-			startTime = readTime(startPath);
-			endTime = readTime(endPath);
-			String racerID = racer.getId();
-			racer.setLapTime(startTime.get(racerID), endTime.get(racerID));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	private Racer setBestLapTime(Racer racer, List<Map<String, LocalDateTime>> startEndTime) {
+		String racerID = racer.getId();
+		racer.setLapTime(startEndTime.get(0).get(racerID), startEndTime.get(1).get(racerID));
 		return racer;
 	}
 

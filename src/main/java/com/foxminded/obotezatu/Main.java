@@ -1,9 +1,6 @@
 package com.foxminded.obotezatu;
 
-import java.time.Duration;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
 

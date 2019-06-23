@@ -23,10 +23,10 @@ public class RacerRepositoryTest {
 
 	@Test
 	public void testReadRacersListSize() {
-		Path ABBREVIATION_FILE_PATH;
+		Path abbreviationPath;
 		try {
-			ABBREVIATION_FILE_PATH = Paths.get(getClass().getClassLoader().getResource("abbreviations.txt").toURI());
-			long expected = Files.lines(ABBREVIATION_FILE_PATH).count();
+			abbreviationPath = Paths.get(getClass().getClassLoader().getResource("abbreviations.txt").toURI());
+			long expected = Files.lines(abbreviationPath).count();
 
 			assertEquals(expected, racers.size());
 
@@ -40,7 +40,7 @@ public class RacerRepositoryTest {
 	@Test(expected = NullPointerException.class)
 	public void testReadRacersWrongFileName() {
 		try {
-			Path ABBREVIATION_FILE_PATH = Paths.get(getClass().getClassLoader().getResource("abbr.txt").toURI());
+			Path abbreviationPath = Paths.get(getClass().getClassLoader().getResource("abbr.txt").toURI());
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
