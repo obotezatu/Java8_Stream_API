@@ -21,11 +21,11 @@ public class RacerRepository {
 
 	public List<Racer> readRacers() {
 		List<Racer> racers = null;
-		List<Map<String, LocalDateTime>> startEndTime = new ArrayList<Map<String, LocalDateTime>>();
 		Path abbreviationPath = getResourceFile(ABBREVIATION_FILE);
 		Path startPath = getResourceFile(START_FILE);
 		Path endPath = getResourceFile(END_FILE);
 		try {
+			List<Map<String, LocalDateTime>> startEndTime = new ArrayList<Map<String, LocalDateTime>>();
 			startEndTime.add(readTime(startPath));
 			startEndTime.add(readTime(endPath));
 			racers = Files.lines(abbreviationPath).map(this::parseAbbreviation)
