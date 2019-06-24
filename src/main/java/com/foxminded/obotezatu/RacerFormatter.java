@@ -16,7 +16,9 @@ public class RacerFormatter {
 		AtomicInteger count = new AtomicInteger(1);
 		
 		racersInfo.stream().limit(15).forEach(racer ->formattedResult.append(formatOutput(racer,count)));
-		formattedResult.append("--------------------------------------------------------------\n");
+		if (count.get() > 15) {
+			formattedResult.append("--------------------------------------------------------------\n");
+		}
 		racersInfo.stream().skip(15).forEach(racer ->formattedResult.append(formatOutput(racer,count)));
 		return formattedResult.toString();
 	}
