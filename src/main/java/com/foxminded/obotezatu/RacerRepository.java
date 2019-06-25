@@ -7,29 +7,33 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class RacerRepository {
-	
-	private static final String START_FILE = "start.log"; 
+
+	private static final String START_FILE = "start.log";
 	private static final String END_FILE = "end.log";
 	private static final String ABBREVIATION_FILE = "abbreviations.txt";
 	private static final String DATE_FORMAT_PATTERN = "yyyy-MM-dd_HH:mm:ss.SSS";
 
 	public List<Racer> readRacers() {
 		List<Racer> racers = null;
+		Map<String, LocalDateTime> start;
+		Map<String, LocalDateTime> end;
 		Path abbreviationPath = getResourceFile(ABBREVIATION_FILE);
 		Path startPath = getResourceFile(START_FILE);
 		Path endPath = getResourceFile(END_FILE);
 		try {
-			List<Map<String, LocalDateTime>> startEndTime = new ArrayList<Map<String, LocalDateTime>>();
-			startEndTime.add(readTime(startPath));
-			startEndTime.add(readTime(endPath));
-			racers = Files.lines(abbreviationPath).map(this::parseAbbreviation)
-					.map(racer->setBestLapTime(racer,startEndTime)).collect(Collectors.toList());
+			start = readTime(startPath);
+			end = readTime(endPath);
+			racers = Files.lines(abbreviationPath)
+					.map(this::parseAbbreviation)
+					.map(racer -> setBestLapTime(racer, start, end))
+					.sorted(Comparator.comparing(Racer::getBestLapTime))
+					.collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,9 +61,10 @@ public class RacerRepository {
 		return qualificationTime;
 	}
 
-	private Racer setBestLapTime(Racer racer, List<Map<String, LocalDateTime>> startEndTime) {
+	private Racer setBestLapTime(Racer racer, Map<String, LocalDateTime> start, Map<String, LocalDateTime> end) {
 		String racerID = racer.getId();
-		racer.setLapTime(startEndTime.get(0).get(racerID), startEndTime.get(1).get(racerID));
+		LapTime lapTime = new LapTime(start.get(racerID), end.get(racerID));
+		racer.setBestLapTime(lapTime.getLapDuration());
 		return racer;
 	}
 
@@ -75,7 +80,6 @@ public class RacerRepository {
 
 	private LocalDateTime parseTime(String dateTime) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DATE_FORMAT_PATTERN);
-		LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter);
-		return localDateTime;
+		return LocalDateTime.parse(dateTime, formatter);
 	}
 }

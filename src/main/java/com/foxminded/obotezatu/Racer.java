@@ -1,13 +1,13 @@
 package com.foxminded.obotezatu;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 
 public class Racer  {
 
 	private String id;
 	private String name;
 	private String team;
-	private LapTime bestLapTime;
+	private Duration bestLapTime;
 
 	public String getId() {
 		return id;
@@ -33,11 +33,11 @@ public class Racer  {
 		this.team = team;
 	}
 
-	public LapTime getLapTime() {
+	public Duration getBestLapTime() {
 		return bestLapTime;
 	}
 
-	public void setLapTime(LocalDateTime start, LocalDateTime end) {
-		this.bestLapTime = new LapTime(start, end);
+	public void setBestLapTime(Duration lapTime) {
+		this.bestLapTime = lapTime;
 	}
 }
