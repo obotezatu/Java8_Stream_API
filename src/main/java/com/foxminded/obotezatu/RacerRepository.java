@@ -31,7 +31,7 @@ public class RacerRepository {
 			end = readTime(endPath);
 			racers = Files.lines(abbreviationPath)
 					.map(this::parseAbbreviation)
-					.map(racer -> setBestLapTime(racer, start, end))
+					.map(racer -> setLapTime(racer, start, end))
 					.sorted(Comparator.comparing(Racer::getBestLapTime))
 					.collect(Collectors.toList());
 		} catch (IOException e) {
@@ -61,9 +61,9 @@ public class RacerRepository {
 		return qualificationTime;
 	}
 
-	private Racer setBestLapTime(Racer racer, Map<String, LocalDateTime> start, Map<String, LocalDateTime> end) {
-		String racerID = racer.getId();
-		LapTime lapTime = new LapTime(start.get(racerID), end.get(racerID));
+	private Racer setLapTime(Racer racer, Map<String, LocalDateTime> start, Map<String, LocalDateTime> end) {
+		String racerId = racer.getId();
+		LapTime lapTime = new LapTime(start.get(racerId), end.get(racerId));
 		racer.setBestLapTime(lapTime.getLapDuration());
 		return racer;
 	}

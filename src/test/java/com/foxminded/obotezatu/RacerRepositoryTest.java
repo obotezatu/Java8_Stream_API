@@ -1,15 +1,10 @@
 package com.foxminded.obotezatu;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonIOException;
 
 public class RacerRepositoryTest {
 
@@ -24,24 +19,18 @@ public class RacerRepositoryTest {
 
 	@Test
 	public void testReadRacers() {
-		/*
-		 * Racer racer1 = new Racer(); Duration duration = null; racer1.setId("1");
-		 * racer1.setName("Sebastian Vettel"); racer1.setTeam("FERRARI");
-		 * duration.ofSeconds(72); duration.ofNanos(13000000);
-		 * racer1.setBestLapTime(duration);
-		 */
-		Gson gson = new Gson();
-		Racer racer1 = racers.get(0);
-		try {
-			gson.toJson(racer1,new FileWriter("D:\\Books\\java\\Java 2018 USM\\Tasks\\Java8_Stream_API\\src\\test\\resources\\racer.json"));
-		} catch (JsonIOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertEquals(racer1.getBestLapTime(), racers.get(0).getBestLapTime());
-		assertEquals(racer1.getName(), racers.get(0).getBestLapTime());
+		Racer expectedRacer = new Racer();
+		Duration duration = null;
+		expectedRacer.setId("SVF");
+		expectedRacer.setName("Sebastian Vettel");
+		expectedRacer.setTeam("FERRARI");
+		duration = Duration.ofSeconds(64).plus(Duration.ofNanos(415000000));
+		expectedRacer.setBestLapTime(duration);
+		Racer actualRacer = racers.get(0);
+		
+		assertEquals(expectedRacer.getId(), actualRacer.getId());
+		assertEquals(expectedRacer.getBestLapTime(), actualRacer.getBestLapTime());
+		assertEquals(expectedRacer.getName(), actualRacer.getName());
+		assertEquals(expectedRacer.getTeam(), actualRacer.getTeam());
 	}
 }
