@@ -14,19 +14,7 @@ public class RacerFormatterTest {
 
 	@Before
 	public void setUp() {
-		racers = new ArrayList<>();
-		Racer racerSebastian = new Racer();
-		racerSebastian.setId("SVF");
-		racerSebastian.setName("Sebastian Vettel");
-		racerSebastian.setTeam("FERRARI");
-		racerSebastian.setBestLapTime(Duration.ofSeconds(64).plus(Duration.ofNanos(415000000)));
-		racers.add(racerSebastian);
-		Racer racerDaniel = new Racer();
-		racerDaniel.setId("DRR");
-		racerDaniel.setName("Daniel Ricciardo");
-		racerDaniel.setTeam("RED BULL RACING TAG HEUER");
-		racerDaniel.setBestLapTime(Duration.ofSeconds(72).plus(Duration.ofNanos(13000000)));
-		racers.add(racerDaniel);
+		racers = createTestList();
 	}
 
 	@Test
@@ -39,5 +27,22 @@ public class RacerFormatterTest {
 				.append("  2. Daniel Ricciardo  | RED BULL RACING TAG HEUER | 01:12.013").append(lineSeparator());
 		String actual = racerFormatter.format(racers,limit);
 		assertEquals(expected.toString(), actual);
+	}
+	
+	static public List<Racer> createTestList(){
+		List<Racer> racers = new ArrayList<>();
+		Racer racerSebastian = new Racer();
+		racerSebastian.setId("SVF");
+		racerSebastian.setName("Sebastian Vettel");
+		racerSebastian.setTeam("FERRARI");
+		racerSebastian.setBestLapTime(Duration.ofSeconds(64).plus(Duration.ofNanos(415000000)));
+		racers.add(racerSebastian);
+		Racer racerDaniel = new Racer();
+		racerDaniel.setId("DRR");
+		racerDaniel.setName("Daniel Ricciardo");
+		racerDaniel.setTeam("RED BULL RACING TAG HEUER");
+		racerDaniel.setBestLapTime(Duration.ofSeconds(72).plus(Duration.ofNanos(13000000)));
+		racers.add(racerDaniel);
+		return racers;
 	}
 }

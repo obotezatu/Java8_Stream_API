@@ -31,4 +31,13 @@ public class RacerRepositoryTest {
 		assertEquals(expectedRacer.getName(), actualRacer.getName());
 		assertEquals(expectedRacer.getTeam(), actualRacer.getTeam());
 	}
+	
+	@Test
+	public void  testReadRacersList() {
+		List<Racer> expected = RacerFormatterTest.createTestList();
+		List<Racer> actual = racerRepository.readRacers();
+		
+		assertEquals(expected, actual);
+		assertEquals(expected.get(0), actual.get(0));
+	}
 }

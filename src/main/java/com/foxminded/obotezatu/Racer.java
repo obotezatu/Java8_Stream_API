@@ -40,4 +40,16 @@ public class Racer  {
 	public void setBestLapTime(Duration lapTime) {
 		this.bestLapTime = lapTime;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null || obj.getClass() != this.getClass()) {
+			return false;
+		}
+		Racer racer = (Racer) obj;
+		return id.equals(racer.id) && (name.equals(racer.getName())) && (team.equals(racer.getTeam())) && (bestLapTime.equals(racer.getBestLapTime()));
+	}
 }
