@@ -19,7 +19,7 @@ public class RacerFormatter {
 		return formattedResult.toString();
 	}
 
-	private static String getFormattedLapTime(Racer racer) {
+	private String getFormattedLapTime(Racer racer) {
 		Duration duration = racer.getBestLapTime();
 		long minutes = duration.toMinutes();
 		long seconds = duration.minusMinutes(minutes).getSeconds();
@@ -27,7 +27,7 @@ public class RacerFormatter {
 		return String.format("%02d:%02d.%03d", minutes, seconds, millis);
 	}
 	
-	private static String formatOutput(Racer racer, AtomicInteger count) {
+	private  String formatOutput(Racer racer, AtomicInteger count) {
 		return String.format("%3d. %-17s | %-25s | %s%s",count.getAndIncrement(), racer.getName(), racer.getTeam(), getFormattedLapTime(racer),lineSeparator());
 	}
 }
