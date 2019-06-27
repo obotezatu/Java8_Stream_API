@@ -21,15 +21,10 @@ public class RacerRepository {
 
 	public List<Racer> readRacers() {
 		List<Racer> racers = null;
-		Map<String, LocalDateTime> start;
-		Map<String, LocalDateTime> end;
-		Path abbreviationPath = getResourceFile(ABBREVIATION_FILE);
-		Path startPath = getResourceFile(START_FILE);
-		Path endPath = getResourceFile(END_FILE);
 		try {
-			start = readTime(startPath);
-			end = readTime(endPath);
-			racers = Files.lines(abbreviationPath)
+			Map<String, LocalDateTime> start = readTime(getResourceFile(START_FILE));
+			Map<String, LocalDateTime> end = readTime(getResourceFile(END_FILE));
+			racers = Files.lines(getResourceFile(ABBREVIATION_FILE))
 					.map(this::parseAbbreviation)
 					.map(racer -> setLapTime(racer, start, end))
 					.sorted(Comparator.comparing(Racer::getBestLapTime))

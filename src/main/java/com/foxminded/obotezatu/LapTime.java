@@ -13,15 +13,15 @@ public class LapTime {
 		this.end = end;
 	}
 
-	public LocalDateTime getStartLap() {
+	public LocalDateTime getStart() {
 		return start;
 	}
 
-	public LocalDateTime getEndLap() {
+	public LocalDateTime getEnd() {
 		return end;
 	}
 
 	public Duration getLapDuration() {
-		return Duration.between(getStartLap(), getEndLap());
+		return Duration.between(getStart(), getEnd());
 	}
 }
