@@ -23,9 +23,9 @@ public class RacerFormatterTest {
 		expected.append("  1. Sebastian Vettel  | FERRARI                   | 01:04.415").append(lineSeparator())
 				.append("--------------------------------------------------------------").append(lineSeparator())
 				.append("  2. Daniel Ricciardo  | RED BULL RACING TAG HEUER | 01:12.013").append(lineSeparator());
-		
-		String actual = racerFormatter.format(racers,limit);
-		
+
+		String actual = racerFormatter.format(racers, limit);
+
 		assertEquals(expected.toString(), actual);
 	}
 }

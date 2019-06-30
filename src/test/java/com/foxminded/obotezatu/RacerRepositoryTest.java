@@ -11,22 +11,21 @@ public class RacerRepositoryTest {
 
 	private RacerRepository racerRepository;
 
-
 	@Before
 	public void setUp() {
 		racerRepository = new RacerRepository();
 	}
-	
+
 	@Test
-	public void  testReadRacersListCreationAndSorting() {
+	public void testReadRacersListCreationAndSorting() {
 		List<Racer> expected = createTestList();
-		List<Racer> actual = racerRepository.readRacers();
 		
+		List<Racer> actual = racerRepository.readRacers();
+
 		assertEquals(expected, actual);
-		assertEquals(expected.get(0), actual.get(0));
 	}
-	
-	public List<Racer> createTestList(){
+
+	public List<Racer> createTestList() {
 		List<Racer> racers = new ArrayList<>();
 		Racer racerSebastian = new Racer();
 		racerSebastian.setId("SVF");
