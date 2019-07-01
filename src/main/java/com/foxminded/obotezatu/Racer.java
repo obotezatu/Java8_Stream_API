@@ -2,7 +2,7 @@ package com.foxminded.obotezatu;
 
 import java.time.Duration;
 
-public class Racer  {
+public class Racer {
 
 	private String id;
 	private String name;
@@ -40,7 +40,7 @@ public class Racer  {
 	public void setBestLapTime(Duration lapTime) {
 		this.bestLapTime = lapTime;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) {
@@ -50,6 +50,7 @@ public class Racer  {
 			return false;
 		}
 		Racer racer = (Racer) obj;
-		return id.equals(racer.id) && (name.equals(racer.getName())) && (team.equals(racer.getTeam())) && (bestLapTime.equals(racer.getBestLapTime()));
+		return id.equals(racer.id) && (name.equals(racer.getName())) && (team.equals(racer.getTeam()))
+				&& (bestLapTime.equals(racer.getBestLapTime()));
 	}
 }

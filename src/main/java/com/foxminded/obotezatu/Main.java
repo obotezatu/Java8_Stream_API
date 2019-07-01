@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Main {
 
-	public static void main(String[] args){
+	public static void main(String[] args) {
 		List<Racer> racers = new RacerRepository().readRacers();
 		int limit = 15;
 		RacerFormatter racerFormatter = new RacerFormatter();

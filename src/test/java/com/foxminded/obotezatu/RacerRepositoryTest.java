@@ -19,7 +19,7 @@ public class RacerRepositoryTest {
 	@Test
 	public void testReadRacersListCreationAndSorting() {
 		List<Racer> expected = createTestList();
-		
+
 		List<Racer> actual = racerRepository.readRacers();
 
 		assertEquals(expected, actual);

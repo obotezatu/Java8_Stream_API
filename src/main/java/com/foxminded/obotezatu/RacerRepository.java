@@ -24,10 +24,8 @@ public class RacerRepository {
 		try {
 			Map<String, LocalDateTime> start = readTime(getResourceFile(START_FILE));
 			Map<String, LocalDateTime> end = readTime(getResourceFile(END_FILE));
-			racers = Files.lines(getResourceFile(ABBREVIATION_FILE))
-					.map(this::parseAbbreviation)
-					.map(racer -> setLapTime(racer, start, end))
-					.sorted(Comparator.comparing(Racer::getBestLapTime))
+			racers = Files.lines(getResourceFile(ABBREVIATION_FILE)).map(this::parseAbbreviation)
+					.map(racer -> setLapTime(racer, start, end)).sorted(Comparator.comparing(Racer::getBestLapTime))
 					.collect(Collectors.toList());
 		} catch (IOException e) {
 			e.printStackTrace();
